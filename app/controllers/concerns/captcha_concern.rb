@@ -4,7 +4,10 @@ module CaptchaConcern
   ALLOWED_EXCEPTIONS = Network::FaradayGet::NET_ERRORS
 
   def valid_captcha? action
-    return true if Rails.env.test?
+    # Cloudflare Turnstile keys are bound to the production domain and 401 on
+    # localhost/shikimori.local, so the widget never yields a token locally.
+    # Skip captcha in local development the same way specs do.
+    return true if Rails.env.test? || Rails.env.development?
 
     is_success = verify_turnstile || verify_google_captcha(action)
 

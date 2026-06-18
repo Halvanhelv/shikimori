@@ -87,8 +87,12 @@ private
   end
 
   def production_url image_url_path, image_index
+    # The static CDN subdomains (nyaa./dere.) 404 outside production, so locally
+    # point straight at the bare production domain, which serves both
+    # /system (Paperclip) and /uploads (Shrine posters).
+    subdomain_index = Rails.env.development? ? nil : image_index
     "#{Shikimori::PROTOCOLS[:production]}://" +
-      (image_index ? "#{SELECTED_STATIC_SUBDOMAINS[image_index]}." : '') +
+      (subdomain_index ? "#{SELECTED_STATIC_SUBDOMAINS[subdomain_index]}." : '') +
       "#{shiki_domain}#{image_url_path}"
   end
 
