@@ -1,0 +1,57 @@
+# 54 — Двунаправленная интеграция с neko
+
+## Что
+Shikimori и neko общаются в **обе стороны**: Rails шлёт neko факт изменения оценки, а neko в ответ **тянет полные данные** юзера из публичного API shikimori, чтобы посчитать ачивки.
+
+## Поток
+```
+1. Rails → neko:   POST /user_rate { user_id, id, target_id, score, status, episodes }
+2. neko → Rails:   GET https://shikimori.one/api/... (списки юзера, аниме, текущие ачивки)
+3. neko считает правила в памяти
+4. neko → Rails:   ответ { added, updated, removed }   (синхронно в теле POST)
+5. Rails пишет ачивки + пушит в браузер через faye
+```
+
+## Реальный код
+Rails-сторона — POST (см. [17](17-achievements-neko.md)):
+```ruby
+URL = "http://localhost:4000/user_rate"
+Faraday.post { |req| req.body = params.to_json; req.headers['Authorization'] = 'foo' }
+```
+
+neko-сторона — приём + обратный клиент:
+```elixir
+# router.ex
+post "/user_rate" do
+  request = Neko.Request.new(conn.body_params)
+  request.user_id |> Neko.UserHandler.DynamicSupervisor.create_missing_handler()
+  diff = request |> Neko.UserHandler.process()
+  conn |> send_resp(201, Poison.encode!(diff))
+end
+
+# config.exs — neko ходит ОБРАТНО в shikimori API
+config :neko, :shikimori,
+  url: "https://shikimori.one/api/",
+  pool: [name: :shikimori_pool, max_connections: 150]   # пул коннектов
+```
+```elixir
+# client.ex — что neko тянет из shikimori
+@callback get_user_rates!(user_id)   :: [UserRate.t()]
+@callback get_achievements!(user_id) :: [Achievement.t()]
+@callback get_animes!()              :: [Anime.t()]
+```
+
+## Каскад таймаутов (важная деталь)
+```
+[120s] запрос в очереди neko
+  → [110s] await загрузки данных юзера из shikimori
+    → [20s] connect + [90s] receive HTTP
+  → [10s] poolboy ждёт воркера расчёта
+    → [5s] сам расчёт
+```
+Каждый внешний таймаут больше суммы внутренних — иначе верхний отвалится раньше, чем нижний успеет.
+
+## Зачем / где полезно
+- Внешний сервис кеширует данные у себя в памяти (handler на юзера), а синхронизируется обратным pull'ом из API источника.
+- Двунаправленность позволяет neko не хранить дубль всей БД — он подтягивает только нужное по запросу.
+- Учит: проектируй каскад таймаутов сверху вниз; используй пул коннектов для обратных вызовов; синхронный ответ в теле POST для дельты.

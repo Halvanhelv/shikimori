@@ -63,3 +63,8 @@
 - [50 — Автокомплит: тонкий контроллер + Search-объект](50-autocomplete-search-concern.md)
 - [51 — Mailer: guard'ы + i18n по локали получателя](51-mailer-guards-i18n.md)
 - [52 — Хелперы: время + русская плюрализация](52-helpers-russian-pluralize.md)
+
+## Архитектура стека (как взаимодействуют проекты)
+- [53 — Архитектура стека (4 сервиса)](53-stack-architecture.md)
+- [54 — Двунаправленная интеграция с neko](54-neko-bidirectional.md)
+- [55 — Аутентификация между сервисами (токены + HMAC)](55-service-tokens.md)
