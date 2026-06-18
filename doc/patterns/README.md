@@ -68,3 +68,7 @@
 - [53 — Архитектура стека (4 сервиса)](53-stack-architecture.md)
 - [54 — Двунаправленная интеграция с neko](54-neko-bidirectional.md)
 - [55 — Аутентификация между сервисами (токены + HMAC)](55-service-tokens.md)
+- [56 — In-memory состояние neko (OTP)](56-neko-in-memory-otp.md)
+- [57 — Set-based diff (added/removed/updated)](57-set-based-diff.md)
+- [58 — Параллельная загрузка + pattern-matching диспетч](58-parallel-load-pattern-match.md)
+- [59 — Внутренности camo-сервера (безопасный прокси)](59-camo-server-internals.md)
