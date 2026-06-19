@@ -54,11 +54,19 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options options = {}
-    if params[:locale]
-      options.merge protocol: Shikimori::PROTOCOL, port: nil, locale: params[:locale]
-    else
-      options.merge protocol: Shikimori::PROTOCOL, port: nil
-    end
+    base = { protocol: Shikimori::PROTOCOL, port: local_run_port }
+    base[:locale] = params[:locale] if params[:locale]
+    options.merge base
+  end
+
+  # In development keep the actual non-standard port (e.g. 3000) so generated
+  # links and client-side XHR target the running server instead of bare :80.
+  # When served via the :80 proxy (or in prod) the port stays nil → clean URLs.
+  def local_run_port
+    return nil unless Rails.env.development?
+
+    port = request&.port
+    [nil, 80, 443].include?(port) ? nil : port
   end
 
   def turbolinks_request?
