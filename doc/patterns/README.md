@@ -72,3 +72,58 @@
 - [57 — Set-based diff (added/removed/updated)](57-set-based-diff.md)
 - [58 — Параллельная загрузка + pattern-matching диспетч](58-parallel-load-pattern-match.md)
 - [59 — Внутренности camo-сервера (безопасный прокси)](59-camo-server-internals.md)
+
+## Модели и данные (для новичка: зачем + сравнение с обычным Rails)
+- [60 — Декораторы вместо хелперов](60-decorators-vs-helpers.md)
+- [61 — STI (наследование на одной таблице)](61-sti.md)
+- [62 — Полиморфные связи](62-polymorphic-associations.md)
+- [63 — Concerns: режем толстую модель](63-model-concerns.md)
+- [64 — Хелперы в ApplicationRecord](64-application-record-helpers.md)
+- [66 — Сортировка по своему порядку (Arel + CASE)](66-arel-case-ordering.md)
+- [67 — Массивы PostgreSQL в колонке](67-postgres-array-columns.md)
+- [68 — jsonb + value-объект](68-jsonb-value-objects.md)
+- [80 — Денормализованные счётчики](80-counter-cache.md)
+- [96 — has_many through с богатой join-моделью](96-has-many-through-rich-join.md)
+- [99 — Rails enum vs dry-types enum](99-enum-vs-dry-types.md)
+
+## Бизнес-логика и фон
+- [65 — Search-объекты (Elasticsearch)](65-search-objects.md)
+- [69 — Singleton-сервисы](69-singleton-services.md)
+- [81 — Операции, вызывающие операции](81-operations-composition.md)
+- [82 — BanDuration: парсинг и формат значения](82-ban-duration-vo.md)
+- [83 — Пул прокси для скрапинга](83-proxy-pool-scraping.md)
+- [88 — AASM-колбэки переходов](88-aasm-callbacks.md)
+- [89 — Цензура/RKN-фильтрация](89-censoring-rkn.md)
+- [90 — Подводный камень мемоизации](90-memoization-caveat.md)
+- [91 — Скоупы vs Query-объекты](91-scopes-vs-query-objects.md)
+- [98 — Отложенный бродкаст](98-broadcast-delay.md)
+
+## Инфраструктура и конфиг
+- [70 — NamedLogger (отдельные логи)](70-named-logger.md)
+- [71 — .delay (отложить вызов в фон)](71-sidekiq-delay.md)
+- [72 — Повторы при сбоях (retry)](72-retriable-workers.md)
+- [73 — Секреты и конфиг вне кода](73-rails-secrets.md)
+- [92 — Procfile + Overmind](92-procfile-overmind.md)
+- [97 — Конфиг-маппинг как константа](97-config-as-constant.md)
+
+## API, авторизация, переводы
+- [74 — Translation concern](74-translation-concern.md)
+- [75 — Doorkeeper (OAuth)](75-doorkeeper-oauth.md)
+- [76 — responders (respond_with)](76-responders.md)
+- [77 — apipie (доки из кода)](77-apipie-docs.md)
+- [78 — Jbuilder (JSON-вьюхи)](78-jbuilder-views.md)
+- [79 — Человекочитаемые URL (to_param)](79-to-param-friendly-urls.md)
+
+## Фронтенд
+- [93 — Server-rendered + Turbolinks](93-turbolinks-ssr.md)
+- [94 — Островки Vue](94-vue-islands.md)
+- [95 — i18n-js (переводы в JS)](95-i18n-js.md)
+
+## Кросс-языковые приёмы (Elixir / Node)
+- [84 — ExConstructor (структура из хеша)](84-exconstructor-elixir.md)
+- [85 — Сменный адаптер через @behaviour](85-elixir-behaviour-adapter.md)
+- [86 — Plug-конвейер](86-plug-pipeline.md)
+- [87 — Faye-расширения (middleware сообщений)](87-faye-extensions.md)
+
+## 🧭 Итог
+- [100 — Навигатор для новичка: когда что применять](100-newcomer-decision-guide.md)
